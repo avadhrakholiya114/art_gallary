@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+<!-- Start Banner Hero -->
+<div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#hero-carousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#hero-carousel" data-bs-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+
+                        <img class="img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left align-self-center">
+                            <h1 class="h1 text-success"><b>Art Gallery</b></h1>
+                            <h3 class="h2">Discover Unique Creations</h3>
+                            <p>
+                                Explore a world of creativity at our Art Gallery. Immerse yourself in a collection
+                                of stunning artworks from talented artists around the globe. Every piece tells a
+                                story, ignites emotions, and sparks inspiration.
+                                Start your journey today and find the perfect masterpiece to adorn your space.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="{% static 'app/images/Designer (17).jpeg' %}" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left">
+                            <h1 class="h1 text-success"><b>Art Gallery: Where Dreams Unfold and Colors Speak</b>
+                            </h1>
+                            <h3 class="h2">Discover Unique Creations</h3>
+                            <p>
+                                Welcome to our Art Gallery, where imagination meets reality and creativity knows no
+                                bounds.
+                                Dive into a world of breathtaking masterpieces crafted by visionary artists from
+                                every corner of the globe.
+                                Each stroke of the brush, every sculpted form, and every captured moment tells a
+                                story, evokes emotions,
+                                and invites you to embark on a journey of exploration and inspiration.
+                                Let our curated collection awaken your senses and elevate your space with beauty and
+                                wonder.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row p-5">
+                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                        <img class="img-fluid" src="{% static 'app/images/Designer (21).jpeg' %}" alt="">
+                    </div>
+                    <div class="col-lg-6 mb-0 d-flex align-items-center">
+                        <div class="text-align-left">
+                            <h1 class="h1">Unveil Your Imagination</h1>
+                            <h3 class="h2">Discover the Essence of Creativity</h3>
+                            <p>
+                                Embark on a journey through our gallery and immerse yourself in the world of
+                                artistic expression.
+                                Let your senses be captivated as each stroke of the brush and every sculpted form
+                                unfolds stories of passion and inspiration.
+                                Elevate your space with the essence of creativity and bring your dreams to life.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#hero-carousel"
+       role="button" data-bs-slide="prev">
+        <i class="fas fa-chevron-left"></i>
+    </a>
+    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#hero-carousel"
+       role="button" data-bs-slide="next">
+        <i class="fas fa-chevron-right"></i>
+    </a>
+</div>
+
+<!-- End Banner Hero -->
+
+
+<section class="container py-5">
+    <div class="row text-center pt-3">
+        <div class="col-lg-6 m-auto">
+            <h1 class="h1">Explore the Latest Trends in Artistry</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="{% static 'app/images/Designer (10).jpeg' %}" class="rounded-circle img-fluid border"></a>
+            <h5 class="text-center mt-3 mb-3">Abstract Art</h5>
+        </div>
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="{% static 'app/images/Designer (11).jpeg' %}" class="rounded-circle img-fluid border"></a>
+            <h2 class="h5 text-center mt-3 mb-3">Landscape Paintings</h2>
+        </div>
+        <div class="col-12 col-md-4 p-5 mt-3">
+            <a href="#"><img src="{% static 'app/images/Designer (12).jpeg' %}" class="rounded-circle img-fluid border"></a>
+            <h2 class="h5 text-center mt-3 mb-3">Portraits</h2>
+        </div>
+        <div class="col-12 mt-3 text-center">
+            <a href="#" class="btn btn-primary">Show More</a>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
