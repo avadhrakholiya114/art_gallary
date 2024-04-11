@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+
+<div class="container">
+    <div class="row p-5">   
+        <div class="col-md-4">
+            <a href="{% url 'sell_art' %}">  
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="text-primary"><i class="fas fa-paint-brush fa-3x"></i></div>
+                        <h3 style="text-decoration: none; color: black;" class="mt-2">Sell Art</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+                
+        <div class="col-md-4">
+            <a href="old_book.jsp">  
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="text-warning"><i class="fas fa-shopping-bag fa-3x"></i></div>
+                        <h3 style="text-decoration: none; color: black;" class="mt-2">My Order</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="edit_profile.jsp">  
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="text-success"><i class="fas fa-user-edit fa-3x"></i></div>
+                        <h3 style="text-decoration: none; color: black;" class="mt-2">Edit Profile</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+               
+        <div class="col-md-6 mt-3">
+            <a href="user_order.jsp">  
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="text-danger"><i class="fas fa-map-marker-alt fa-3x"></i></div>
+                        <h3 style="text-decoration: none; color: black;" class="mt-2">Add Address</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 mt-3">
+            <a href="helpline.jsp">  
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="text-dark"><i class="fas fa-user fa-3x"></i></div>
+                        <h3 style="text-decoration: none; color: black;" class="mt-2">Add Profile Detail</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>  
+</div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+
+<div class="container mb-5">
+    <div class="row">
+
+        <div class="col-md-4 offset-md-4">
+            <div class="card mt-5">
+
+               
+                <div class="card-body">
+                    <h5 class="text-center text-success p-1">Unleash Your Creativity</h5>
+
+                    <form action="{% url 'sell_art' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    
+                        <div class="mb-3">
+                            <label for="artist" class="form-label">Artist*</label>
+                            <input type="text" class="form-control" name="artist" id="artist" aria-describedby="artistHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title*</label>
+                            <input type="text" class="form-control" name="title" id="title" aria-describedby="titleHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description *</label>
+                            <textarea class="form-control" name="description" id="description" aria-describedby="descriptionHelp"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category*</label>
+                            <select class="form-select" name="category" id="category" required>
+                                    <option disabled selected>Select Art</option>
+                                    <option value="Abstract Art">Abstract Art</option>
+                                    <option value="Landscape Paintings">Landscape Paintings</option>
+                                    <option value="Portraits">Portraits</option>
+                                    <option value="Sculptures">Sculptures</option>
+                                    <option value="Modern Art">Modern Art </option>
+                                    <option value="Photography">Photography </option>
+                                    <option value="Illustrations">Illustrations </option>
+                                    <option value="Others">Others</option>
+                               
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="photo" class="form-label">Upload Photo*</label>
+                            <input type="file" class="form-control" name="photo" id="photo" aria-describedby="photoHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price*</label>
+                            <input type="number" class="form-control" name="price" id="price" aria-describedby="priceHelp">
+                        </div>
+                    
+                        <button type="submit" class="btn btn-outline-dark">Capture Imagination</button>
+                    
+                    </form>
+                    
+                </div>      
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
