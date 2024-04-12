@@ -28,18 +28,18 @@
         </div>
 
         <div class="col-md-4">
-            <a href="edit_profile.jsp">  
+            <a href="{% url 'show_address' %}">  
                 <div class="card">
                     <div class="card-body text-center">
                         <div class="text-success"><i class="fas fa-user-edit fa-3x"></i></div>
-                        <h3 style="text-decoration: none; color: black;" class="mt-2">Edit Profile</h3>
+                        <h3 style="text-decoration: none; color: black;" class="mt-2">Show Address</h3>
                     </div>
                 </div>
             </a>
         </div>
                
         <div class="col-md-6 mt-3">
-            <a href="user_order.jsp">  
+            <a href="{% url 'add_address' %}">  
                 <div class="card">
                     <div class="card-body text-center">
                         <div class="text-danger"><i class="fas fa-map-marker-alt fa-3x"></i></div>

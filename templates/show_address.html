@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            {% if add %}
+            <div class="row">
+                {% for i in add %}
+                <div class="col-sm-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Address {{forloop.counter}}</h5>
+                            <p class="card-text">Name: {{i.name}}</p>
+                            <p class="card-text">Locality: {{i.locality}}</p>
+                            <p class="card-text">City: {{i.city}}</p>
+                            <p class="card-text">Mobile: {{i.mobile}}</p>
+                            <p class="card-text">Zipcode: {{i.zipcode}}</p>
+                            <p class="card-text">State: {{i.state}}</p>
+                            <div class="text-center">
+                                <a href="{% url 'delete_address' i.id %}" class="btn btn-danger">delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="row">
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="card text-center mb-3">
+            <div class="card-body">
+                <h5 class="card-title text-primary">No Address Added</h5>
+                <p class="card-text">You haven't added any address yet.</p>
+                <a href="{% url 'add_address' %}" class="btn btn-outline-dark">Add Now</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

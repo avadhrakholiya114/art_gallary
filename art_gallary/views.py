@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 
 from django.contrib.auth.decorators import login_required
 
-from .models import Artwork,Cart
+from .models import Artwork,Cart,Address
 from django.contrib import messages
 from django.db.models import Q
 # Create your views here.
@@ -136,3 +136,42 @@ def removecart(request):
             'totalamount': totalamount
         }
         return JsonResponse(data)
+    
+
+def add_address(request):
+    if request.method == 'POST':
+        
+        user = request.user
+
+        name = request.POST.get('name')
+        locality = request.POST.get('locality')
+        city = request.POST.get('city')
+        mobile = request.POST.get('mobile')
+        zipcode = request.POST.get('zipcode')
+        state = request.POST.get('state')
+        Address.objects.create(
+            user=user,
+            name=name,
+            locality=locality,
+            city=city,
+            mobile=mobile,
+            zipcode=zipcode,
+            state=state
+        )
+        
+        return redirect('show_address')
+    
+    return render(request, 'add_address.html')
+
+def show_address(request):
+    user = request.user
+    add = Address.objects.filter(user=user)
+    context = {
+        'add': add
+    }
+    return render(request, 'show_address.html', context)
+
+def delete_address(request, id):
+    add = Address.objects.get(id=id)
+    add.delete()
+    return redirect('show_address')

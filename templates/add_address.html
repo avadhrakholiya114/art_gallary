@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h5 class="text-center text-success p-1">Address Form</h5>
+                    <form action="{% url 'add_address' %}" method="post">
+                        {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name*</label>
+                                <input type="text" class="form-control" name="name" id="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="locality" class="form-label">Locality*</label>
+                                <input type="text" class="form-control" name="locality" id="locality" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="city" class="form-label">City*</label>
+                                <input type="text" class="form-control" name="city" id="city" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mobile" class="form-label">Mobile*</label>
+                                <input type="tel" class="form-control" name="mobile" id="mobile" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="zipcode" class="form-label">Zipcode*</label>
+                                <input type="text" class="form-control" name="zipcode" id="zipcode" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="state" class="form-label">State*</label>
+                                <input type="text" class="form-control" name="state" id="state" required>
+                            </div>
+                        <button type="submit" class="btn btn-outline-dark">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

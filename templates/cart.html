@@ -5,8 +5,7 @@
 
 <div class="container">
     <div class="row p-2">
-        <div class="col-md-6">
-
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     {% if messages %}
@@ -14,21 +13,17 @@
                         {% for message in messages %}
                         <li class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                             {{ message }}
-
                             <span aria-hidden="true" onclick="this.parentElement.style.display='none';"
                                 style="font-weight: bold; font-size: 22px; cursor: pointer;float: right;">&times;</span>
-
                         </li>
                         {% endfor %}
                     </ul>
                     {% endif %}
 
-
                     <h3 class="text-center text-success">Your Selected Item</h3>
                     <table class="table table-striped">
                         <thead>
                             <tr>
-
                                 <th scope="col">Art</th>
                                 <th scope="col">Artist</th>
                                 <th scope="col">Title</th>
@@ -46,107 +41,32 @@
                                 <td>{{ i.art.catagory }}</td>
                                 <td>{{ i.art.price }}</td>
                                 <td>
-                                    <a  pid={{i.art.id}} class="remove-cart btn btn-danger">Remove</a>
+                                    <a pid={{i.art.id}} class="remove-cart btn btn-danger">Remove</a>
                                 </td>
                             </tr>
                             {% endfor %}
-                        
-                            <tr class="bg-dark text-white ">
-                            
-                                <td><strong id="amount">Total Price : {{ total }}</strong></td>
 
-                           
-                               
+                            <tr class="bg-dark text-white ">
+                                <td><strong id="amount">Total Price : {{ total }}</strong></td>
                                 <td><strong>Shipping: 40</strong></td>
-                           
                                 <td colspan="2">
-                                    
-                                        <td><strong>Total (including gst)</strong></td>
-                                        <td><strong id="totalamount">Rs.{{ totalamount }}</strong></td>
-                                    
+                                    <td><strong>Total (including gst)</strong></td>
+                                    <td><strong id="totalamount">Rs.{{ totalamount }}</strong></td>
                                 </td>
-                               
                             </tr>
                         </tbody>
-                        
-
                     </table>
+
+                    <div class="text-center mt-2">
+                        <button class="btn btn-warning">Check Out</button>
+                        <a href="{% url 'art_all' %}" class="btn btn-success">Explore more</a>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <div class="card">
-
-                <div class="card-body">
-                    <h3 class="text-center text-success">Your Details for Order</h3>
-
-                    <form method="post" action="">
-                        <input type="hidden" value="" name="id">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="inputName" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="inputName" name="name" value="">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="inputEmail" name="email" value="">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="inputPhoneNumber" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" id="inputPhoneNumber" name="phone" value="">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputAddress" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="inputAddress" name="address" value="">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="inputLandmark" class="form-label">Landmark</label>
-                                <input type="text" class="form-control" id="inputLandmark" name="landmark" value="">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputCity" class="form-label">City</label>
-                                <input type="text" class="form-control" id="inputCity" name="city" value="">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="inputState" class="form-label">State</label>
-                                <input type="text" class="form-control" id="inputState" name="state" value="">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputZip" class="form-label">Zip</label>
-                                <input type="text" class="form-control" id="inputZip" name="zip" value="">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Payment Mode</label>
-                            <select class="form-control" name="paymentMode" required>
-                                <option value="noselect">--Select--</option>
-                                <option value="cod">Cash On Delivery</option>
-                            </select>
-                        </div>
-
-                        <div class="text-center mt-2">
-                            <button class="btn btn-warning">Check Out</button>
-                            <a href="{% url 'art_all' %}" class="btn btn-success">Explore more</a>
-                        </div>
-                    </form>
-
-
-                </div>
-            </div>
-        </div>
-
-
-
     </div>
 </div>
+
 
 
 {% endblock %}
