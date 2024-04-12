@@ -14,6 +14,7 @@ urlpatterns = [
      path('art/<str:category>/', views.art, name='art'),
      path('art/', views.art, name='art_all'),
      path('artwork_detail/<int:id>', views.artwork_detail,name='artwork_detail'),
-     path('cart/', views.cart,name='cart'),
-     
+     path('cart/<int:id>', views.cart,name='cart'),
+      path('show_cart/', views.show_cart, name="show_cart"),
+      path('removecart/', views.removecart, name="removecart"),
 ]

@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout
@@ -5,8 +6,9 @@ from django.contrib.auth import authenticate
 
 from django.contrib.auth.decorators import login_required
 
-from .models import Artwork
-
+from .models import Artwork,Cart
+from django.contrib import messages
+from django.db.models import Q
 # Create your views here.
 # //artist 123
 def home(request):
@@ -50,12 +52,13 @@ def profile(request):
 def sell_art(request):
     if request.method=='POST':
         User=request.user
+        artist = request.POST.get('artist')
         title = request.POST.get('title')
         description = request.POST.get('description')
         price = request.POST.get('price')
         image = request.FILES.get('photo')
         catagory=request.POST.get('category')
-        Artwork.objects.create(artist=User, title=title, description=description, image=image,catagory=catagory ,price=price)
+        Artwork.objects.create(seller=User, artist=artist, title=title, description=description, image=image,catagory=catagory ,price=price)
         
         return redirect('home')
         
@@ -79,5 +82,57 @@ def artwork_detail(request, id):
     
     return render(request, 'art_detail.html', context)
 
-def cart(request):
-    return render(request, 'cart.html')
+def cart(request,id):
+    user = request.user
+    artwork = Artwork.objects.get(id=id)
+    # check condition for artist can not buy their own art 
+    
+    own_art  = artwork.seller == user
+    if own_art:
+        messages.warning(request, "You can not buy your own art.")
+        return redirect('art_all')
+    
+    # Check if the same product exists in the cart for the current user
+    cart_item_exists = Cart.objects.filter(user=user,art__id =id).exists()
+    if cart_item_exists:
+        messages.warning(request, "Item already in the cart.")
+    else:
+        # If the item is not in the cart, add it
+        Cart.objects.create(user=user, art=artwork)
+        messages.success(request, "Item added to the cart successfully.")
+    return redirect('show_cart')
+
+def show_cart(request):
+    user = request.user
+    data  = Cart.objects.filter(user=user)
+    total = 0
+    for p in data:
+        value = p.quantity * p.art.price
+        total = total + value
+    totalamount = total + 40
+    context = {
+        'data': data ,
+        'totalamount': totalamount,
+        'total': total,
+    }
+    return render(request, 'cart.html', context)
+
+def removecart(request):
+    
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(art=prod_id) & Q(user=request.user))
+        c.delete()
+        user = request.user
+        data = cart.objects.filter(user=user)
+        total = 0
+        for p in data:
+            value = p.quantity * p.art.price
+            total = total + value
+        totalamount = total + 40
+        data = {
+
+            'total': total,
+            'totalamount': totalamount
+        }
+        return JsonResponse(data)

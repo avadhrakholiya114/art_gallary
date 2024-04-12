@@ -14,7 +14,8 @@ art_catagory = (
 )
 
 class Artwork(models.Model):
-    artist = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE,default=1)
+    artist = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to='artworks')
@@ -26,11 +27,9 @@ class Artwork(models.Model):
         return self.title
 
 
-class cart(models.Model):
+class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     art = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
-    @property
-    def total(self):
-        return self.quantity * self.art.price
+   
