@@ -53,7 +53,7 @@ def sell_art(request):
         title = request.POST.get('title')
         description = request.POST.get('description')
         price = request.POST.get('price')
-        image = request.FILES.get('image')
+        image = request.FILES.get('photo')
         catagory=request.POST.get('category')
         Artwork.objects.create(artist=User, title=title, description=description, image=image,catagory=catagory ,price=price)
         
@@ -61,9 +61,23 @@ def sell_art(request):
         
     return render(request, 'sell_art.html')
 
-def art(request):
-    # artwork = Artwork.objects.get(id=id)
-    return render(request, 'art.html')
+def art(request, category=None):
+    if category:
+        artworks = Artwork.objects.filter(catagory=category)
+    else:
+        artworks = Artwork.objects.all()
+    context = {
+        'artworks': artworks
+    }
+    return render(request, 'art.html', context)
 
-def artwork_detail(request):
-    return render(request, 'art_detail.html')
+def artwork_detail(request, id):
+    art_detail = Artwork.objects.get(id=id)
+    context = {
+        'art_detail': art_detail
+    }
+    
+    return render(request, 'art_detail.html', context)
+
+def cart(request):
+    return render(request, 'cart.html')

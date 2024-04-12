@@ -10,187 +10,70 @@
         <div class="col-lg-3">
             <h1 class="h2 pb-4">Categories</h1>
            
-              
             <ul class="list-unstyled text-light footer-link-list">
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">All</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art_all' %}">All</a>
                 </li>
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">Abstract Art</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Abstract Art' %}">Abstract Art</a>
                 </li>
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">Landscape Paintings</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Landscape Paintings' %}">Landscape Paintings</a>
                 </li>
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">Portraits</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Portraits' %}">Portraits</a>
                 </li>
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">Sculptures</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Sculptures' %}">Sculptures</a>
                 </li>
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">Modern Art</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Modern Art' %}">Modern Art</a>
                 </li>
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">Photography</a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Photography' %}">Photography</a>
                 </li>
                 <li class="pb-3">
-                    <a class="text-decoration-none text-dark" href="#">Illustrations </a>
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Illustrations' %}">Illustrations</a>
                 </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Others' %}">Others</a>
+                </li>
+        
             </ul>
-            
+              
+
+           
            
         </div>
 
         <div class="col-lg-9">
 
             <div class="row">
+                {% for i in artworks %}
                 <div class="col-md-4">
                     <div class="card mb-4 product-wap rounded-0">
                         <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                            <img class="card-img rounded-0 img-fluid" src="/media/{{i.image}}" style="height: 200px;">
+                            <div class="card-img-overlay rounded-/media/{{ i.product_images }}0 product-overlay d-flex align-items-center justify-content-center">
                                 <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="{% url 'artwork_detail' i.id %}"><i class="far fa-eye"></i></a></li>
                                     <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="card-body">
-                            <a href="shop-single.html" class="h3 text-decoration-none">Oupidatat non</a>
-                            <div class="artist-name">Artist: Avadh</div> 
+                          
+                            <a href="{% url 'artwork_detail' i.id %}" class="h3 text-decoration-none">{{i.title}}</a>
+                            <div class="artist-name">Artist: {{i.artist}}</div> 
                             <ul class="w-100 list-unstyled d-flex  mb-0">
-                               Catagory :    <li class="text-dark">Abstract</li>
+                               Catagory :    <li class="text-dark">{{i.catagory}}</li>
                             </ul>
-                            <p class="text-center mb-0">&#8377;250.00</p>
+                            <p class="text-center mb-0">&#8377;{{i.price}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0">
-                        <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <a href="shop-single.html" class="h3 text-decoration-none">Oupidatat non</a>
-                            <div class="artist-name">Artist: Avadh</div> 
-                            <ul class="w-100 list-unstyled d-flex  mb-0">
-                               Catagory :    <li class="text-dark">Abstract</li>
-                            </ul>
-                            <p class="text-center mb-0">&#8377;250.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0">
-                        <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <a href="shop-single.html" class="h3 text-decoration-none">Oupidatat non</a>
-                            <div class="artist-name">Artist: Avadh</div> 
-                            <ul class="w-100 list-unstyled d-flex  mb-0">
-                               Catagory :    <li class="text-dark">Abstract</li>
-                            </ul>
-                            <p class="text-center mb-0">&#8377;250.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0">
-                        <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <a href="shop-single.html" class="h3 text-decoration-none">Oupidatat non</a>
-                            <div class="artist-name">Artist: Avadh</div> 
-                            <ul class="w-100 list-unstyled d-flex  mb-0">
-                               Catagory :    <li class="text-dark">Abstract</li>
-                            </ul>
-                            <p class="text-center mb-0">&#8377;250.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0">
-                        <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <a href="shop-single.html" class="h3 text-decoration-none">Oupidatat non</a>
-                            <div class="artist-name">Artist: Avadh</div> 
-                            <ul class="w-100 list-unstyled d-flex  mb-0">
-                               Catagory :    <li class="text-dark">Abstract</li>
-                            </ul>
-                            <p class="text-center mb-0">&#8377;250.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0">
-                        <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <a href="shop-single.html" class="h3 text-decoration-none">Oupidatat non</a>
-                            <div class="artist-name">Artist: Avadh</div> 
-                            <ul class="w-100 list-unstyled d-flex  mb-0">
-                               Catagory :    <li class="text-dark">Abstract</li>
-                            </ul>
-                            <p class="text-center mb-0">&#8377;250.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 product-wap rounded-0">
-                        <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{% static 'app/images/Designer (15).jpeg' %}">
-                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                <ul class="list-unstyled">
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
-                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <a href="shop-single.html" class="h3 text-decoration-none">Oupidatat non</a>
-                            <div class="artist-name">Artist: Avadh</div> 
-                            <ul class="w-100 list-unstyled d-flex  mb-0">
-                               Catagory :    <li class="text-dark">Abstract</li>
-                            </ul>
-                            <p class="text-center mb-0">&#8377;250.00</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+               
                 
         
             </div>
