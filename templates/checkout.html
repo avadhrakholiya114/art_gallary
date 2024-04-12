@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+
+<div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+
+            <span aria-hidden="true" onclick="this.parentElement.style.display='none';"
+                  style="font-weight: bold; font-size: 22px; cursor: pointer;float: right;">&times;</span>
+
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="row mt-5">
+        <div class="col-sm-6">
+            <h4>Order Summary</h4>
+            <hr>
+            {% for i in data %} 
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5>Art  : {{ i.art.title }}  </h5>
+                    <p> Artist : {{ i.art.artist }} </p>
+                    <p class="fw-bold">Price : {{ total}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            <p class="fw-bold">Total Cost + Rs.40= {{totalamount }}</p>
+            <small>Terms and Conditions : By placing an order, you agree to abide by our terms and conditions. </small>
+        </div>
+
+
+        <div class="col-sm-4 offset-sm-1 mb-5">
+            <h4>Select Shipping Address</h4>
+            <hr>
+            <form method="post" id="myform">
+                {% csrf_token %}
+                {% for ad in add %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5>{{ad.name}}</h5>
+                        <p>Mobile : {{ad.mobile}}</p>
+                        <p>{{ad.locality}} {{ad.city}} {{ad.zipcode}} {{ad.state}}</p>
+                    </div>
+                </div>
+                <div class="form-check mt-2 mb-5">
+                    <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}"
+                           value="{{ad.id}}"></input>
+                    <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">Address
+                        :{{forloop.counter}} </label>
+                </div>
+                {% endfor %}
+                <div class="form-check mb-3">
+                    <label for="totalamount" class="form-label">Total Amount</label>
+                    <input type="number" id="totalamount" class="form-control" name="totalamount" value={{totalamount}}
+                           readonly>
+                </div>
+                <div class="text-end">
+                    <button id="rzp-button1" class="btn btn-warning mt-3 px-5 fw-bold" type="submit">Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

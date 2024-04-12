@@ -175,3 +175,20 @@ def delete_address(request, id):
     add = Address.objects.get(id=id)
     add.delete()
     return redirect('show_address')
+
+def checkout(request):
+    data = Cart.objects.filter(user=request.user)
+    total = 0
+    for p in data:
+        value = p.quantity * p.art.price
+        total = total + value
+    totalamount = total + 40
+    add = Address.objects.filter(user=request.user)
+    
+    context = {
+        'data': data,
+        'totalamount': totalamount,
+        'add': add,
+        'total': total,
+    }
+    return render(request, 'checkout.html', context)
