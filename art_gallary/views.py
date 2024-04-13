@@ -5,10 +5,14 @@ from django.contrib.auth import login,logout
 from django.contrib.auth import authenticate
 
 from django.contrib.auth.decorators import login_required
+import razorpay
 
-from .models import Artwork,Cart,Address
+from .models import Artwork,Cart,Address,Payment,Orderplaced
 from django.contrib import messages
 from django.db.models import Q
+
+
+from django.conf import settings
 # Create your views here.
 # //artist 123
 def home(request):
@@ -185,10 +189,52 @@ def checkout(request):
     totalamount = total + 40
     add = Address.objects.filter(user=request.user)
     
+    # for razorpay
+    razoramount = int(totalamount * 100)
+    client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+    k = {'amount': razoramount, "currency": 'INR', "receipt": "order_rcptid_12"}
+    paymant_response = client.order.create(data=k)
+
+    print(paymant_response)
+
+    # {'id': 'order_Nxy2kh60XCMBJz', 'entity': 'order', 'amount': 416100, 'amount_paid': 0, 'amount_due': 416100, 'currency': 'INR', 'receipt': 'order_rcptid_12', 'offer_id': None, 'status': 'created', 'attempts': 0, 'notes': [], 'created_at': 1712980910}
+    order_id = paymant_response['id']
+    order_status = paymant_response['status']
+    if order_status == 'created':
+        pay = Payment(
+            user=request.user,
+            amount=totalamount,
+            razorpay_order_id=order_id,
+            razorpay_payment_status=order_status
+
+        )
+        pay.save()
+    
     context = {
         'data': data,
         'totalamount': totalamount,
         'add': add,
         'total': total,
+        'razoramount':razoramount,
+        'order_id':order_id
     }
     return render(request, 'checkout.html', context)
+
+def paymentdone(request):
+    order_id = request.GET.get("order_id")
+    payment_id = request.GET.get("payment_id")
+    cust_id = request.GET.get("cust_id")
+    print(order_id, payment_id, cust_id)
+    user = request.user
+    add = Address.objects.get(id=cust_id)
+
+    pay = Payment.objects.get(razorpay_order_id=order_id)
+    pay.paid = True
+    pay.razorpay_payment_id = payment_id
+    pay.save()
+    data = Cart.objects.filter(user=request.user)
+ 
+    for c in data:
+        Orderplaced(user=user, address=add, product=c.art, quantity=c.quantity, payment=pay).save()
+        c.delete()
+    return redirect('show_cart')

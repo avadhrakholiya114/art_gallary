@@ -11,7 +11,7 @@
             {{ message }}
 
             <span aria-hidden="true" onclick="this.parentElement.style.display='none';"
-                  style="font-weight: bold; font-size: 22px; cursor: pointer;float: right;">&times;</span>
+                style="font-weight: bold; font-size: 22px; cursor: pointer;float: right;">&times;</span>
 
         </li>
         {% endfor %}
@@ -21,10 +21,10 @@
         <div class="col-sm-6">
             <h4>Order Summary</h4>
             <hr>
-            {% for i in data %} 
+            {% for i in data %}
             <div class="card mb-2">
                 <div class="card-body">
-                    <h5>Art  : {{ i.art.title }}  </h5>
+                    <h5>Art : {{ i.art.title }} </h5>
                     <p> Artist : {{ i.art.artist }} </p>
                     <p class="fw-bold">Price : {{ total}}</p>
                 </div>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-check mt-2 mb-5">
                     <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}"
-                           value="{{ad.id}}"></input>
+                        value="{{ad.id}}"></input>
                     <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">Address
                         :{{forloop.counter}} </label>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="form-check mb-3">
                     <label for="totalamount" class="form-label">Total Amount</label>
                     <input type="number" id="totalamount" class="form-control" name="totalamount" value={{totalamount}}
-                           readonly>
+                        readonly>
                 </div>
                 <div class="text-end">
                     <button id="rzp-button1" class="btn btn-warning mt-3 px-5 fw-bold" type="submit">Payment</button>
@@ -67,4 +67,41 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block payment-gatway %}
+
+<script>
+
+var options = {
+"key": "rzp_test_T0YhTf6pxoA9kr", // Enter the Key ID generated from the Dashboard
+"amount": "{{razoramount}}",
+"currency": "INR",
+"name": "Art Gallary",
+"description": "Discover, buy, and support unique artworks from talented artists worldwide.",
+
+"order_id": "{{order_id}}",
+"handler": function (response){
+var form=document.getElementById("myform");
+window.location.href=`http://127.0.0.1:8000/paymentdone?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&cust_id=${form.elements["custid"].value}`
+console.log("done")
+},
+"theme": {
+"color": "#3399cc"
+}
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+
+alert(response.error.description);
+
+});
+document.getElementById('rzp-button1').onclick = function(e){
+rzp1.open();
+console.log("clicked")
+e.preventDefault();
+
+}
+
+</script>
 {% endblock %}

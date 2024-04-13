@@ -46,3 +46,33 @@ class Address(models.Model):
 
     def __str__(self):
         return self.name
+
+
+status = (
+    ('Accepted', 'Accepted'),
+    ('Packed', 'Packed'),
+    ('On the Way', 'On the Way'),
+    ('Delivered', 'Delivered'),
+    ('Cancel', 'Cancel'),
+    ('Pending', 'Pending'),
+)
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_status = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    paid = models.BooleanField(default=False)
+
+class Orderplaced(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    product = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    ordered_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=status, default='Pending')
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default="")
+
+

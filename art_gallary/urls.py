@@ -21,5 +21,6 @@ urlpatterns = [
       path('show_address/', views.show_address, name="show_address"),
       path('delete_address/<int:id>', views.delete_address, name="delete_address"),
       
-      path('checkout', views.checkout, name="checkout"),
+      path('checkout/', views.checkout, name="checkout"),
+      path('paymentdone/', views.paymentdone, name="paymentdone"),
 ]

@@ -18,6 +18,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
 
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 </head>
 
@@ -145,6 +146,10 @@
 
     {% block info %}
     {% endblock %}
+    
+    {% block payment-gatway %}
+    {% endblock  %}
+
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="footer">
