@@ -23,4 +23,7 @@ urlpatterns = [
       
       path('checkout/', views.checkout, name="checkout"),
       path('paymentdone/', views.paymentdone, name="paymentdone"),
-]
+      path('order/', views.order, name="order"),
+      path('receiveorder/', views.receiveorder, name="receiveorder"),
+      path('update_order_status/', views.update_order_status, name="update_order_status"),
+]   

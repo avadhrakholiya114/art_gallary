@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 import razorpay
 
-from .models import Artwork,Cart,Address,Payment,Orderplaced
+from .models import Artwork,Cart,Address,Payment,Order
 from django.contrib import messages
 from django.db.models import Q
 
@@ -16,10 +16,20 @@ from django.conf import settings
 # Create your views here.
 # //artist 123
 def home(request):
-    return render(request, 'index.html')
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
+        context={
+            'ca':ca
+        }
+    return render(request, 'index.html',context)
 
 def  about(request):
-    return render(request, 'about.html')
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
+        context={
+            'ca':ca
+        }
+    return render(request, 'about.html',context)
 
 def register(request):
     if request.method=='POST':
@@ -31,6 +41,7 @@ def register(request):
         my_user=User.objects.create_user(username, email, password)
         my_user.save()
         return redirect('login')
+    
     return render(request, 'register.html')
 
 def login_view(request):
@@ -50,7 +61,12 @@ def logout_view(request):
     return redirect('login')
 
 def profile(request):
-    return render(request, 'profile.html')
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
+        context={
+            'ca':ca
+        }
+    return render(request, 'profile.html',context)
 
 @login_required(login_url='login')
 def sell_art(request):
@@ -65,23 +81,33 @@ def sell_art(request):
         Artwork.objects.create(seller=User, artist=artist, title=title, description=description, image=image,catagory=catagory ,price=price)
         
         return redirect('home')
-        
-    return render(request, 'sell_art.html')
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
+        context={
+            'ca':ca
+        }
+    return render(request, 'sell_art.html',context)
 
 def art(request, category=None):
     if category:
         artworks = Artwork.objects.filter(catagory=category)
     else:
         artworks = Artwork.objects.all()
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
     context = {
-        'artworks': artworks
+        'artworks': artworks,
+        'ca':ca
     }
     return render(request, 'art.html', context)
 
 def artwork_detail(request, id):
     art_detail = Artwork.objects.get(id=id)
+   
+    ca = Cart.objects.filter(user=request.user).count()
     context = {
-        'art_detail': art_detail
+        'art_detail': art_detail,
+        'ca':ca
     }
     
     return render(request, 'art_detail.html', context)
@@ -114,10 +140,13 @@ def show_cart(request):
         value = p.quantity * p.art.price
         total = total + value
     totalamount = total + 40
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
     context = {
         'data': data ,
         'totalamount': totalamount,
         'total': total,
+        'ca':ca
     }
     return render(request, 'cart.html', context)
 
@@ -164,14 +193,22 @@ def add_address(request):
         )
         
         return redirect('show_address')
-    
-    return render(request, 'add_address.html')
+
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
+        context={
+            'ca':ca
+        }
+    return render(request, 'add_address.html',context)
 
 def show_address(request):
     user = request.user
     add = Address.objects.filter(user=user)
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
     context = {
-        'add': add
+        'add': add,
+        'ca':ca
     }
     return render(request, 'show_address.html', context)
 
@@ -206,17 +243,18 @@ def checkout(request):
             amount=totalamount,
             razorpay_order_id=order_id,
             razorpay_payment_status=order_status
-
         )
         pay.save()
-    
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
     context = {
         'data': data,
         'totalamount': totalamount,
         'add': add,
         'total': total,
         'razoramount':razoramount,
-        'order_id':order_id
+        'order_id':order_id,
+        'ca':ca
     }
     return render(request, 'checkout.html', context)
 
@@ -233,8 +271,49 @@ def paymentdone(request):
     pay.razorpay_payment_id = payment_id
     pay.save()
     data = Cart.objects.filter(user=request.user)
- 
+    print(data)
+    for i in data:
+        Order(user=user, address=add, product=i.art, quantity=i.quantity, payment=pay).save()
+        
+
     for c in data:
-        Orderplaced(user=user, address=add, product=c.art, quantity=c.quantity, payment=pay).save()
+   
         c.delete()
-    return redirect('show_cart')
+
+    return redirect('order')
+
+
+def order(request):
+    op = Order.objects.filter(user=request.user)
+    print(op)
+    if request.user.is_authenticated:
+        ca = Cart.objects.filter(user=request.user).count()
+    context = {
+        'order': op,
+        'ca':ca
+    }
+    return render(request, 'order.html', context)
+
+def receiveorder(request):
+    received_orders = Order.objects.filter(product__seller=request.user)
+    print(received_orders)
+    context = {
+        'receives': received_orders
+    }
+    # print(recive)
+    return render(request, 'recive_order.html', context)
+
+def update_order_status(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        new_status = request.POST.get('status')
+        
+        try:
+            order = Order.objects.get(id=order_id)
+            order.status = new_status
+            order.save()
+            return redirect('receiveorder')
+        except Order.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Order does not exist'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request'})

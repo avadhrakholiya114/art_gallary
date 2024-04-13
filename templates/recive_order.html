@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4">Received Orders</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Order By</th>
+          <th>Address</th>
+          <th>Art</th>
+          <th>Ordered Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in receives %}
+        <tr> 
+          <td>{{ r.user }}</td>
+          <td>{{ r.address.city }},{{ r.address.state }}-{{ r.address.zipcode }}</td>
+          <td>{{ r.product.title }}</td>
+          <td>{{ r.ordered_date }}</td>
+          <td>
+            <form action="{% url 'update_order_status' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="order_id" value="{{ r.id }}">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown{{ r.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ r.status }}
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                    <li><button class="dropdown-item" type="submit" name="status" value="Accepted">Accepted</button></li>
+                    <li><button class="dropdown-item" type="submit" name="status" value="Packed">Packed</button></li>
+                    <li><button class="dropdown-item" type="submit" name="status" value="On the Way">On the Way</button></li>
+                    <li><button class="dropdown-item" type="submit" name="status" value="Delivered">Delivered</button></li>
+                    <li><button class="dropdown-item" type="submit" name="status" value="Cancel">Cancel</button></li>
+                    <li><button class="dropdown-item" type="submit" name="status" value="Pending">Pending</button></li>
+                  </ul>
+                </div>
+              </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+{% endblock %}
+
