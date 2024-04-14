@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block info %}
+
+ <!-- Start Content -->
+ <div class="container py-5">
+    <div class="row">
+
+        <div class="col-lg-3">
+            <h1 class="h2 pb-4">Categories</h1>
+           
+            <ul class="list-unstyled text-light footer-link-list">
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art_all' %}">All</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Abstract Art' %}">Abstract Art</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Landscape Paintings' %}">Landscape Paintings</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Portraits' %}">Portraits</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Sculptures' %}">Sculptures</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Modern Art' %}">Modern Art</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Photography' %}">Photography</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Illustrations' %}">Illustrations</a>
+                </li>
+                <li class="pb-3">
+                    <a class="text-decoration-none text-dark" href="{% url 'art' category='Others' %}">Others</a>
+                </li>
+        
+            </ul>
+              
+
+           
+           
+        </div>
+
+        <div class="col-lg-9">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+
+                    <span aria-hidden="true" onclick="this.parentElement.style.display='none';"
+                        style="font-weight: bold; font-size: 22px; cursor: pointer;float: right;">&times;</span>
+
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <div class="row">
+                {% for i in artworks %}
+                <div class="col-md-4">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0">
+                            <img class="card-img rounded-0 img-fluid" src="/media/{{i.image}}" style="height: 200px;">
+                            <div class="card-img-overlay rounded-/media/{{ i.product_images }}0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="{% url 'artwork_detail' i.id %}"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="{% url 'cart' i.id %}"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                          
+                            <a href="{% url 'artwork_detail' i.id %}" class="h3 text-decoration-none">{{i.title}}</a>
+                            <div class="artist-name">Artist: {{i.artist}}</div> 
+                            <ul class="w-100 list-unstyled d-flex  mb-0">
+                               Catagory :    <li class="text-dark">{{i.catagory}}</li>
+                            </ul>
+                            <p class="text-center mb-0">&#8377;{{i.price}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+               
+                
+        
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+<!-- End Content -->
+
+{% endblock %}

@@ -15,13 +15,33 @@ from django.db.models import Q
 from django.conf import settings
 # Create your views here.
 # //artist 123
+from django.db.models import Q
+
 def home(request):
+    ca = 0  # Default value for cart count
     if request.user.is_authenticated:
         ca = Cart.objects.filter(user=request.user).count()
-        context={
-            'ca':ca
+        
+    if request.GET.get('search'):
+        search = request.GET.get('search')
+        artworks = Artwork.objects.filter(
+            Q(title__icontains=search) |
+            Q(artist__icontains=search) |
+            Q(catagory__icontains=search) |  
+            Q(price__icontains=search) |
+            Q(description__icontains=search)
+        )
+        context = {
+            'artworks': artworks,
+            'ca': ca  
         }
-    return render(request, 'index.html',context)
+        return render(request, 'serch.html', context)
+        
+    context = {
+        'ca': ca
+    }
+    return render(request, 'index.html', context)
+
 
 def  about(request):
     if request.user.is_authenticated:
@@ -40,6 +60,7 @@ def register(request):
         print(username, password, email)
         my_user=User.objects.create_user(username, email, password)
         my_user.save()
+        messages.success(request, "Registration successfully.")
         return redirect('login')
     
     return render(request, 'register.html')
@@ -60,6 +81,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+@login_required(login_url='login')
 def profile(request):
     if request.user.is_authenticated:
         ca = Cart.objects.filter(user=request.user).count()
@@ -88,6 +110,7 @@ def sell_art(request):
         }
     return render(request, 'sell_art.html',context)
 
+
 def art(request, category=None):
     if category:
         artworks = Artwork.objects.filter(catagory=category)
@@ -112,6 +135,7 @@ def artwork_detail(request, id):
     
     return render(request, 'art_detail.html', context)
 
+@login_required(login_url='login')
 def cart(request,id):
     user = request.user
     artwork = Artwork.objects.get(id=id)
@@ -132,6 +156,7 @@ def cart(request,id):
         messages.success(request, "Item added to the cart successfully.")
     return redirect('show_cart')
 
+@login_required(login_url='login')
 def show_cart(request):
     user = request.user
     data  = Cart.objects.filter(user=user)
@@ -150,6 +175,7 @@ def show_cart(request):
     }
     return render(request, 'cart.html', context)
 
+@login_required(login_url='login')
 def removecart(request):
     
     if request.method == 'GET':
@@ -171,6 +197,7 @@ def removecart(request):
         return JsonResponse(data)
     
 
+@login_required(login_url='login')
 def add_address(request):
     if request.method == 'POST':
         
@@ -191,7 +218,7 @@ def add_address(request):
             zipcode=zipcode,
             state=state
         )
-        
+        messages.success(request, "Address added successfully.")
         return redirect('show_address')
 
     if request.user.is_authenticated:
@@ -201,6 +228,7 @@ def add_address(request):
         }
     return render(request, 'add_address.html',context)
 
+@login_required(login_url='login')
 def show_address(request):
     user = request.user
     add = Address.objects.filter(user=user)
@@ -212,11 +240,13 @@ def show_address(request):
     }
     return render(request, 'show_address.html', context)
 
+@login_required(login_url='login')
 def delete_address(request, id):
     add = Address.objects.get(id=id)
     add.delete()
     return redirect('show_address')
 
+@login_required(login_url='login')
 def checkout(request):
     data = Cart.objects.filter(user=request.user)
     total = 0
@@ -258,6 +288,7 @@ def checkout(request):
     }
     return render(request, 'checkout.html', context)
 
+@login_required(login_url='login')
 def paymentdone(request):
     order_id = request.GET.get("order_id")
     payment_id = request.GET.get("payment_id")
@@ -279,10 +310,11 @@ def paymentdone(request):
     for c in data:
    
         c.delete()
-
+    messages.success(request, "order placed successfully.")
     return redirect('order')
 
 
+@login_required(login_url='login')
 def order(request):
     op = Order.objects.filter(user=request.user)
     print(op)
@@ -294,6 +326,7 @@ def order(request):
     }
     return render(request, 'order.html', context)
 
+@login_required(login_url='login')
 def receiveorder(request):
     received_orders = Order.objects.filter(product__seller=request.user)
     print(received_orders)
@@ -303,6 +336,7 @@ def receiveorder(request):
     # print(recive)
     return render(request, 'recive_order.html', context)
 
+@login_required(login_url='login')
 def update_order_status(request):
     if request.method == 'POST':
         order_id = request.POST.get('order_id')

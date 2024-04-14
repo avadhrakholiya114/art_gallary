@@ -5,6 +5,18 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
+        
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <span aria-hidden="true" onclick="this.parentElement.style.display='none';"
+                    style="font-weight: bold; font-size: 22px; cursor: pointer;float: right;">&times;</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <div class="col-sm-8">
             {% if add %}
             <div class="row">
